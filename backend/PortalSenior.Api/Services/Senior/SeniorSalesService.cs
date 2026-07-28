@@ -48,6 +48,10 @@ public sealed class SeniorSalesService : ISeniorSalesService
             StringComparer.OrdinalIgnoreCase);
         var filtroTnsAtivo = tnsExcluidas.Count > 0;
 
+        var codOriPermitidas = new HashSet<string>(
+            _options.CodOriVenda.Where(o => !string.IsNullOrWhiteSpace(o)).Select(o => o.Trim()),
+            StringComparer.OrdinalIgnoreCase);
+
         var rows = new List<SalesItemRow>();
         var invoicesRead = 0;
 
@@ -76,6 +80,16 @@ public sealed class SeniorSalesService : ISeniorSalesService
                     continue;
                 }
 
+                // Situação e tipo da nota (regra do ERP: sitNfv=2, tipNfs=1).
+                if (_options.SitNfvVenda is int sitVenda && (ReadInt(nota, "sitNfv") ?? int.MinValue) != sitVenda)
+                {
+                    continue;
+                }
+                if (_options.TipNfsVenda is int tipVenda && (ReadInt(nota, "tipNfs") ?? int.MinValue) != tipVenda)
+                {
+                    continue;
+                }
+
                 var numNfv = ReadInt(nota, "numNfv") ?? 0;
                 var datEmi = ReadDate(nota, "datEmi");
                 var codCli = ReadInt(nota, "codCli") ?? 0;
@@ -88,6 +102,16 @@ public sealed class SeniorSalesService : ISeniorSalesService
                         !codPro.Equals(filters.Produto.Trim(), StringComparison.OrdinalIgnoreCase))
                     {
                         continue;
+                    }
+
+                    // Origem do produto (E075PRO.CODORI) = 3 primeiros dígitos do codPro.
+                    if (codOriPermitidas.Count > 0)
+                    {
+                        var origem = codPro.Length >= 3 ? codPro[..3] : codPro;
+                        if (!codOriPermitidas.Contains(origem))
+                        {
+                            continue;
+                        }
                     }
 
                     rows.Add(new SalesItemRow

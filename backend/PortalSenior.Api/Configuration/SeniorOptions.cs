@@ -41,6 +41,19 @@ public sealed class SeniorOptions
     /// </summary>
     public string[] TnsNaoVenda { get; set; } = [];
 
+    /// <summary>Situação da nota (E140NFV.SITNFV) a considerar. Null = não filtra. Regra do ERP: 2.</summary>
+    public int? SitNfvVenda { get; set; }
+
+    /// <summary>Tipo de nota (E140NFV.TIPNFS) a considerar. Null = não filtra. Regra do ERP: 1 (saída).</summary>
+    public int? TipNfsVenda { get; set; }
+
+    /// <summary>
+    /// Origens de produto (E075PRO.CODORI) permitidas. Como o WS de produtos não está liberado,
+    /// o CODORI é inferido dos 3 primeiros dígitos do codPro (ex.: 500001001 → "500"). Item cujo
+    /// prefixo não está nesta lista é descartado. Vazio = não filtra por origem.
+    /// </summary>
+    public string[] CodOriVenda { get; set; } = [];
+
     /// <summary>
     /// Monta a URL do endpoint síncrono de um serviço.
     /// Ex.: BuildSyncEndpoint("MCWFUsers") => http://host:8080/g5-senior-services/sapiens_SyncMCWFUsers
