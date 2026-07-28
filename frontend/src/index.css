@@ -1,0 +1,10 @@
+/* O grosso do reset vem do <CssBaseline/> do MUI. Aqui ficam apenas ajustes globais. */
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}

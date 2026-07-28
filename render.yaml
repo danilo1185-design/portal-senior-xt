@@ -1,0 +1,17 @@
+# Blueprint do Render para o backend .NET (portal-senior-api).
+# No Render: New + → Blueprint → conecte este repositório do GitHub.
+# Depois, no serviço, defina a variável de ambiente Jwt__SecretKey (secreta).
+services:
+  - type: web
+    name: portal-senior-api
+    runtime: docker
+    region: virginia
+    plan: free
+    dockerContext: ./backend/PortalSenior.Api
+    dockerfilePath: ./backend/PortalSenior.Api/Dockerfile
+    healthCheckPath: /api/health
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: Jwt__SecretKey
+        sync: false

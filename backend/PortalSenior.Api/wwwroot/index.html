@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portal Senior XT — Login</title>
+  <link rel="stylesheet" href="css/login.css" />
+</head>
+<body>
+  <main class="shell">
+    <section class="card" aria-labelledby="titulo">
+      <header class="card__header">
+        <div class="logo" aria-hidden="true">PS</div>
+        <h1 id="titulo">Portal Senior XT</h1>
+        <p class="subtitle">Acesse com seu usuário do ERP Senior</p>
+      </header>
+
+      <form id="login-form" novalidate>
+        <div class="field">
+          <label for="username">Usuário</label>
+          <input id="username" name="username" type="text" autocomplete="username"
+                 required autofocus spellcheck="false" />
+        </div>
+
+        <div class="field">
+          <label for="password">Senha</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" required />
+        </div>
+
+        <div id="alert" class="alert" role="alert" hidden></div>
+
+        <button id="submit" type="submit" class="btn btn--primary">
+          <span class="btn__label">Entrar</span>
+          <span class="spinner" aria-hidden="true"></span>
+        </button>
+      </form>
+
+      <footer class="card__footer">
+        <button id="check-erp" type="button" class="btn btn--ghost">Testar conexão com o ERP</button>
+        <p id="erp-status" class="erp-status" hidden></p>
+      </footer>
+    </section>
+
+    <section id="welcome" class="card card--welcome" hidden aria-labelledby="welcome-title">
+      <h2 id="welcome-title">Login efetuado</h2>
+      <p class="welcome__text">
+        Autenticado como <strong id="welcome-user"></strong> no ERP Senior.
+      </p>
+      <p class="welcome__hint">Sessão válida até <span id="welcome-expires"></span>.</p>
+      <button id="logout" type="button" class="btn btn--ghost">Sair</button>
+    </section>
+  </main>
+
+  <script src="js/login.js"></script>
+</body>
+</html>
