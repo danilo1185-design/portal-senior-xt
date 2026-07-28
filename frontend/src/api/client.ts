@@ -57,9 +57,10 @@ export function extractErrorMessage(error: unknown, fallback: string): string {
       return 'Não foi possível conectar ao servidor. Verifique se a API está no ar.'
     }
     const data = error.response?.data as { message?: string } | undefined
-    if (data?.message) {
-      return data.message
-    }
+    return data?.message ?? fallback
+  }
+  if (error instanceof Error && error.message) {
+    return error.message
   }
   return fallback
 }

@@ -36,6 +36,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signIn = useCallback(async (username: string, password: string) => {
     const result = await loginRequest(username, password)
+    // Sem token válido significa resposta inesperada (ex.: backend fora do ar e o Hosting
+    // devolvendo index.html). Evita o "falso login" e mostra um erro claro.
+    if (!result?.token) {
+      throw new Error('Não foi possível conectar ao servidor (backend indisponível).')
+    }
     setStoredToken(result.token)
     setUser({ username: result.username })
   }, [])
